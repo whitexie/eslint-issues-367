@@ -1,49 +1,75 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { nextTick, onBeforeUpdate, ref } from 'vue'
+
+import 'codemirror/lib/codemirror.css'
+import { Option, Select } from 'element-ui'
+import VirtualList from './components/VirtualList.vue'
+import mappingList from './assets/jsons/mappingList.json'
+import optionList from './assets/jsons/locationOptions.json'
+
+// const listData = ref(Array.from({ length: 300 }).map((_, index) => ({ id: index + 1 })))
+const listData = ref(mappingList)
+const locationOptions = ref(optionList)
+
+function onClick() {
+  const old = listData.value
+  listData.value = []
+  nextTick(() => {
+    listData.value = old
+  })
+}
 </script>
 
 <template>
   <div id="app">
-    <header>
-      <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-      <div class="wrapper">
-        <HelloWorld msg="You did it!" />
-      </div>
-    </header>
-
-    <main>
-      <TheWelcome />
-    </main>
+    <VirtualList :list-data="listData" :item-height="40" container-tag="table" item-tag="tr">
+      <template #default="{ row }">
+        <td>
+          {{ row.id }}
+        </td>
+        <td>
+          <Select v-model="row.value" size="mini">
+            <!-- <Option v-for="item in optionList" :key="item.id" v-bind="item" /> -->
+          </Select>
+        </td>
+      </template>
+    </VirtualList>
+    <el-button @click="onClick">
+      Click Me
+    </el-button>
   </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<style>
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#app {
+  border: 1px solid #ddd;
+  width: 600px;
+  height: 300px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+div {
+  box-sizing: border-box;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+.row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid #ddd;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+table {
+  width: 100%;
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+td {
+  width: 50%;
+  text-align: center;
 }
 </style>

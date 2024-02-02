@@ -7,13 +7,20 @@
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
-    "vue": "^2.7.7"
+    "codemirror": "5.65.16",
+    "vue": "^2.7.7",
+    "vue-codemirror": "^4.0.6"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.3",
     "@vitejs/plugin-legacy": "^2.0.0",
     "@vitejs/plugin-vue2": "^1.1.2",
+    "ant-design-vue": "^1.7.8",
+    "element-ui": "^2.15.14",
     "eslint": "^8.56.0",
+    "eslint-plugin-format": "^0.1.0",
+    "less": "^4.2.0",
+    "lottie-web": "^5.12.2",
     "terser": "^5.14.2",
     "vite": "^3.0.2"
   }
