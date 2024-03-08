@@ -18,16 +18,22 @@ const props = defineProps({
     type: String,
     default: 'div',
   },
+  containerProps: {
+    type: Object,
+    default: () => ({}),
+  },
+  itemProps: {
+    type: Object,
+    default: () => ({}),
+  },
 })
 
 let updating = false
 let curPage = 0
 const start = ref(0)
 const end = ref(0)
-
 const containerRef = ref(null)
 const visibleCount = ref(0)
-
 const visibleData = ref([])
 
 const placeholderUpStyle = computed(() => {
@@ -84,8 +90,14 @@ onMounted(() => {
 <template>
   <div ref="containerRef" class="list-container" @scroll="handleScroll">
     <div class="placeholder up" :style="placeholderUpStyle" />
-    <component :is="containerTag" class="render-list">
-      <component :is="itemTag" v-for="item in visibleData" :key="item.id" :style="itemStyle" class="render-list__item">
+    <component :is="containerTag" v-bind="containerProps" class="render-list">
+      <component
+        :is="itemTag"
+        v-for="item in visibleData"
+        :key="item.id" :style="itemStyle"
+        v-bind="itemProps"
+        class="render-list__item"
+      >
         <slot :row="item" />
       </component>
     </component>
